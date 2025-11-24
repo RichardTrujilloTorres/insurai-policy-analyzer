@@ -1,0 +1,19 @@
+parameters:
+    level: 6
+
+    paths:
+        - src
+
+    tmpDir: var/cache/phpstan
+
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+
+    ignoreErrors:
+        # Ignore Symfony Kernel interface analysis noise
+        - '#Call to an undefined method Symfony\\Component\\HttpKernel\\KernelInterface#'
+
+        # Allow controller invoke without explicit return type (API-friendly)
+        - '#Method App\\Controller\\.+::__invoke\(\) has no return typehint specified#'
+
+    reportUnmatchedIgnoredErrors: false
