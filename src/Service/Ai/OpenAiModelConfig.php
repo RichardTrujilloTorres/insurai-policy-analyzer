@@ -5,7 +5,7 @@ namespace App\Service\Ai;
 readonly class OpenAiModelConfig
 {
     public function __construct(
-        private string $model = 'gpt-4.1-mini',
+        private string $model = 'gpt-4o-mini',
         private float  $temperature = 0.1,
         private int    $maxTokens = 2000
     ) {}

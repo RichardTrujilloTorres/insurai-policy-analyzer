@@ -30,3 +30,5 @@ services:
             $config: '@App\Service\Ai\OpenAiModelConfig'
             $openAiApiKey: '%env(OPENAI_API_KEY)%'
     App\Service\Validation\RequestValidator: ~
+    Symfony\Component\Serializer\Normalizer\ObjectNormalizer: ~
+    Symfony\Component\Serializer\Normalizer\ArrayDenormalizer: ~

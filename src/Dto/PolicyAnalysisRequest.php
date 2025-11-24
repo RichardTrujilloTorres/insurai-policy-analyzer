@@ -10,12 +10,10 @@ class PolicyAnalysisRequest
     #[Assert\Type("string")]
     public string $policyText;
 
-    #[Assert\Optional]
     #[Assert\Type("string")]
     #[Assert\Length(max: 50)]
     public ?string $policyType = null;
 
-    #[Assert\Optional]
     #[Assert\Type("string")]
     #[Assert\Choice(
         choices: ["IT", "EU", "US", "UK", "GLOBAL"],
@@ -23,11 +21,9 @@ class PolicyAnalysisRequest
     )]
     public ?string $jurisdiction = null;
 
-    #[Assert\Optional]
     #[Assert\Type("string")]
     public ?string $language = "en";
 
-    #[Assert\Optional]
     #[Assert\Type("array")]
     public ?array $metadata = null;
 }
