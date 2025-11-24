@@ -18,3 +18,14 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Service\Ai\OpenAiModelConfig:
+        arguments:
+            $model: '%env(OPENAI_MODEL)%'
+            $temperature: 0.2
+            $maxTokens: 2000
+    App\Service\Ai\OpenAiClient:
+        arguments:
+            $httpClient: '@http_client'
+            $logger: '@logger'
+            $config: '@App\Service\Ai\OpenAiModelConfig'
+            $openAiApiKey: '%env(OPENAI_API_KEY)%'
