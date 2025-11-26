@@ -10,8 +10,9 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 readonly class CorrelationIdSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private CorrelationIdProvider $provider
-    ) {}
+        private CorrelationIdProvider $provider,
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

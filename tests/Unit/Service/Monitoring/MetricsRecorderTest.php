@@ -43,7 +43,7 @@ class MetricsRecorderTest extends TestCase
         $durationMs = 500.0;
         $meta = [
             'tokens_used' => 1500,
-            'model' => 'gpt-4o-mini'
+            'model' => 'gpt-4o-mini',
         ];
 
         // Assert
@@ -55,7 +55,7 @@ class MetricsRecorderTest extends TestCase
                 [
                     'duration_ms' => $durationMs,
                     'tokens_used' => 1500,
-                    'model' => 'gpt-4o-mini'
+                    'model' => 'gpt-4o-mini',
                 ]
             );
 
@@ -91,7 +91,7 @@ class MetricsRecorderTest extends TestCase
             'policy_type' => 'health',
             'jurisdiction' => 'US',
             'user_id' => 'user-123',
-            'request_id' => 'req-456'
+            'request_id' => 'req-456',
         ];
 
         // Assert
@@ -175,7 +175,7 @@ class MetricsRecorderTest extends TestCase
                 'metrics.policy_analysis.failure',
                 [
                     'duration_ms' => $durationMs,
-                    'reason' => $reason
+                    'reason' => $reason,
                 ]
             );
 
@@ -190,7 +190,7 @@ class MetricsRecorderTest extends TestCase
         $reason = 'Invalid API key';
         $meta = [
             'model' => 'gpt-4o-mini',
-            'attempt' => 1
+            'attempt' => 1,
         ];
 
         // Assert
@@ -203,7 +203,7 @@ class MetricsRecorderTest extends TestCase
                     'duration_ms' => $durationMs,
                     'reason' => $reason,
                     'model' => 'gpt-4o-mini',
-                    'attempt' => 1
+                    'attempt' => 1,
                 ]
             );
 
@@ -225,7 +225,7 @@ class MetricsRecorderTest extends TestCase
                 'metrics.policy_analysis.failure',
                 [
                     'duration_ms' => $durationMs,
-                    'reason' => $reason
+                    'reason' => $reason,
                 ]
             );
 
@@ -241,7 +241,7 @@ class MetricsRecorderTest extends TestCase
             'Network timeout',
             'Service unavailable',
             'Invalid request format',
-            'Authentication failed'
+            'Authentication failed',
         ];
 
         foreach ($reasons as $reason) {
@@ -257,7 +257,7 @@ class MetricsRecorderTest extends TestCase
                     'metrics.policy_analysis.failure',
                     [
                         'duration_ms' => 100.0,
-                        'reason' => $reason
+                        'reason' => $reason,
                     ]
                 );
 
@@ -280,7 +280,7 @@ class MetricsRecorderTest extends TestCase
                 'metrics.policy_analysis.failure',
                 [
                     'duration_ms' => $durationMs,
-                    'reason' => ''
+                    'reason' => '',
                 ]
             );
 
@@ -298,7 +298,7 @@ class MetricsRecorderTest extends TestCase
             'field' => 'policyText',
             'user_id' => 'user-789',
             'request_id' => 'req-012',
-            'retry_count' => 3
+            'retry_count' => 3,
         ];
 
         // Assert
@@ -314,7 +314,7 @@ class MetricsRecorderTest extends TestCase
                     'field' => 'policyText',
                     'user_id' => 'user-789',
                     'request_id' => 'req-012',
-                    'retry_count' => 3
+                    'retry_count' => 3,
                 ]
             );
 
@@ -412,7 +412,7 @@ class MetricsRecorderTest extends TestCase
         $durationMs = 1000.0;
         $meta = [
             'duration_ms' => 9999.0, // This WILL overwrite due to array_merge order
-            'other_field' => 'value'
+            'other_field' => 'value',
         ];
 
         // Assert - Metadata value wins due to array_merge(['duration_ms' => 1000.0], $meta)
@@ -423,7 +423,7 @@ class MetricsRecorderTest extends TestCase
                 'metrics.policy_analysis.success',
                 [
                     'duration_ms' => 9999.0, // Metadata overwrites the parameter
-                    'other_field' => 'value'
+                    'other_field' => 'value',
                 ]
             );
 
@@ -438,7 +438,7 @@ class MetricsRecorderTest extends TestCase
         $reason = 'Original reason';
         $meta = [
             'reason' => 'Fake reason', // This WILL overwrite due to array_merge order
-            'other_field' => 'value'
+            'other_field' => 'value',
         ];
 
         // Assert - Metadata value wins
@@ -450,7 +450,7 @@ class MetricsRecorderTest extends TestCase
                 [
                     'duration_ms' => 500.0,
                     'reason' => 'Fake reason', // Metadata overwrites the parameter
-                    'other_field' => 'value'
+                    'other_field' => 'value',
                 ]
             );
 
@@ -466,12 +466,12 @@ class MetricsRecorderTest extends TestCase
             'tokens' => [
                 'prompt' => 1000,
                 'completion' => 500,
-                'total' => 1500
+                'total' => 1500,
             ],
             'model_info' => [
                 'name' => 'gpt-4o-mini',
-                'version' => '2024-01'
-            ]
+                'version' => '2024-01',
+            ],
         ];
 
         // Assert - Nested structures should be preserved
@@ -485,12 +485,12 @@ class MetricsRecorderTest extends TestCase
                     'tokens' => [
                         'prompt' => 1000,
                         'completion' => 500,
-                        'total' => 1500
+                        'total' => 1500,
                     ],
                     'model_info' => [
                         'name' => 'gpt-4o-mini',
-                        'version' => '2024-01'
-                    ]
+                        'version' => '2024-01',
+                    ],
                 ]
             );
 
@@ -507,8 +507,8 @@ class MetricsRecorderTest extends TestCase
             'error_details' => [
                 'code' => 500,
                 'message' => 'Internal Server Error',
-                'trace_id' => 'abc-123'
-            ]
+                'trace_id' => 'abc-123',
+            ],
         ];
 
         // Assert - Nested structures should be preserved
@@ -523,8 +523,8 @@ class MetricsRecorderTest extends TestCase
                     'error_details' => [
                         'code' => 500,
                         'message' => 'Internal Server Error',
-                        'trace_id' => 'abc-123'
-                    ]
+                        'trace_id' => 'abc-123',
+                    ],
                 ]
             );
 

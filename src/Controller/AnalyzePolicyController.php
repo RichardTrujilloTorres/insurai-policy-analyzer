@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Dto\PolicyAnalysisRequest;
-use App\Service\Validation\RequestValidator;
 use App\Service\Policy\PolicyAnalyzerService;
+use App\Service\Validation\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,10 +13,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class AnalyzePolicyController
 {
     public function __construct(
-        private SerializerInterface   $serializer,
+        private SerializerInterface $serializer,
         private PolicyAnalyzerService $analyzer,
-        private RequestValidator      $validator
-    ) {}
+        private RequestValidator $validator,
+    ) {
+    }
 
     #[Route('/analyze', name: 'analyze_policy', methods: ['POST'])]
     public function __invoke(Request $request): JsonResponse

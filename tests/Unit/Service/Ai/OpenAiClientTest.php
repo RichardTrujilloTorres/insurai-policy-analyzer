@@ -52,7 +52,7 @@ class OpenAiClientTest extends TestCase
         // Arrange
         $messages = [
             ['role' => 'system', 'content' => 'You are an expert insurance policy analyzer.'],
-            ['role' => 'user', 'content' => 'Analyze this policy...']
+            ['role' => 'user', 'content' => 'Analyze this policy...'],
         ];
 
         $tools = [
@@ -61,27 +61,27 @@ class OpenAiClientTest extends TestCase
                 'function' => [
                     'name' => 'analyze_insurance_policy',
                     'description' => 'Analyzes insurance policies',
-                    'parameters' => ['type' => 'object']
-                ]
-            ]
+                    'parameters' => ['type' => 'object'],
+                ],
+            ],
         ];
 
         $expectedResponseData = [
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [
-                ['type' => 'annual', 'amount' => '$1,000']
+                ['type' => 'annual', 'amount' => '$1,000'],
             ],
             'exclusions' => ['Pre-existing conditions'],
             'riskLevel' => 'medium',
             'requiredActions' => ['Review exclusions'],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         $openAiApiResponse = [
@@ -91,13 +91,13 @@ class OpenAiClientTest extends TestCase
                         'tool_calls' => [
                             [
                                 'function' => [
-                                    'arguments' => json_encode($expectedResponseData)
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'arguments' => json_encode($expectedResponseData),
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $response = $this->createMock(ResponseInterface::class);
@@ -174,10 +174,10 @@ class OpenAiClientTest extends TestCase
             'choices' => [
                 [
                     'message' => [
-                        'content' => 'Some text response without tool_calls'
-                    ]
-                ]
-            ]
+                        'content' => 'Some text response without tool_calls',
+                    ],
+                ],
+            ],
         ];
 
         $response = $this->createMock(ResponseInterface::class);
@@ -209,13 +209,13 @@ class OpenAiClientTest extends TestCase
                         'tool_calls' => [
                             [
                                 'function' => [
-                                    'arguments' => '{invalid json syntax'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'arguments' => '{invalid json syntax',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $response = $this->createMock(ResponseInterface::class);
@@ -267,13 +267,13 @@ class OpenAiClientTest extends TestCase
                         'tool_calls' => [
                             [
                                 'function' => [
-                                    'arguments' => '{"test": "data"}'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'arguments' => '{"test": "data"}',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->httpClient
@@ -305,13 +305,13 @@ class OpenAiClientTest extends TestCase
                         'tool_calls' => [
                             [
                                 'function' => [
-                                    'arguments' => '{"test": "data"}'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'arguments' => '{"test": "data"}',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->httpClient
@@ -322,7 +322,7 @@ class OpenAiClientTest extends TestCase
                 $this->anything(),
                 $this->callback(function ($options) {
                     return isset($options['headers']['Authorization'])
-                        && $options['headers']['Authorization'] === 'Bearer test-api-key-sk-1234567890';
+                        && 'Bearer test-api-key-sk-1234567890' === $options['headers']['Authorization'];
                 })
             )
             ->willReturn($response);
@@ -359,13 +359,13 @@ class OpenAiClientTest extends TestCase
                         'tool_calls' => [
                             [
                                 'function' => [
-                                    'arguments' => '{"test": "data"}'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'arguments' => '{"test": "data"}',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->httpClient
@@ -376,9 +376,10 @@ class OpenAiClientTest extends TestCase
                 $this->anything(),
                 $this->callback(function ($options) {
                     $payload = $options['json'];
-                    return $payload['model'] === 'gpt-4-turbo-preview'
-                        && $payload['temperature'] === 0.5
-                        && $payload['max_tokens'] === 4000;
+
+                    return 'gpt-4-turbo-preview' === $payload['model']
+                        && 0.5 === $payload['temperature']
+                        && 4000 === $payload['max_tokens'];
                 })
             )
             ->willReturn($response);
@@ -397,10 +398,10 @@ class OpenAiClientTest extends TestCase
             'choices' => [
                 [
                     'message' => [
-                        'tool_calls' => []
-                    ]
-                ]
-            ]
+                        'tool_calls' => [],
+                    ],
+                ],
+            ],
         ];
 
         $response = $this->createMock(ResponseInterface::class);
@@ -428,8 +429,8 @@ class OpenAiClientTest extends TestCase
         $responseWithoutChoices = [
             'error' => [
                 'message' => 'Invalid request',
-                'type' => 'invalid_request_error'
-            ]
+                'type' => 'invalid_request_error',
+            ],
         ];
 
         $response = $this->createMock(ResponseInterface::class);
@@ -460,27 +461,27 @@ class OpenAiClientTest extends TestCase
                 'coverageAmount' => '€1,000,000',
                 'coverageBreakdown' => [
                     ['category' => 'medical', 'limit' => '€500,000'],
-                    ['category' => 'dental', 'limit' => '€50,000']
-                ]
+                    ['category' => 'dental', 'limit' => '€50,000'],
+                ],
             ],
             'deductibles' => [
                 ['type' => 'annual', 'amount' => '€1,000'],
-                ['type' => 'per_visit', 'amount' => '€50']
+                ['type' => 'per_visit', 'amount' => '€50'],
             ],
             'exclusions' => [
                 'Pre-existing conditions',
                 'Cosmetic procedures',
-                'Experimental treatments'
+                'Experimental treatments',
             ],
             'riskLevel' => 'medium',
             'requiredActions' => [
                 'Verify coverage limits',
-                'Review exclusions carefully'
+                'Review exclusions carefully',
             ],
             'flags' => [
                 'needsLegalReview' => true,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         $response = $this->createMock(ResponseInterface::class);
@@ -492,13 +493,13 @@ class OpenAiClientTest extends TestCase
                         'tool_calls' => [
                             [
                                 'function' => [
-                                    'arguments' => json_encode($complexData)
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'arguments' => json_encode($complexData),
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->httpClient

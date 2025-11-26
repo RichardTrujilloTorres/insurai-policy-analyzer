@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Mock;
 
+use App\Service\Ai\OpenAiModelConfig;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use App\Service\Ai\OpenAiModelConfig;
 
 /**
  * Mock OpenAI Client for testing
@@ -20,7 +20,7 @@ class MockOpenAiClient
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
         OpenAiModelConfig $config,
-        string $openAiApiKey
+        string $openAiApiKey,
     ) {
         // We don't use these dependencies in the mock
         // But we need them to match the real constructor signature
@@ -31,25 +31,25 @@ class MockOpenAiClient
                 'coverageAmount' => '$10,000',
                 'coverageBreakdown' => [
                     ['category' => 'medical', 'limit' => '$5,000'],
-                    ['category' => 'hospitalization', 'limit' => '$5,000']
-                ]
+                    ['category' => 'hospitalization', 'limit' => '$5,000'],
+                ],
             ],
             'deductibles' => [
-                ['type' => 'annual', 'amount' => '$1,000']
+                ['type' => 'annual', 'amount' => '$1,000'],
             ],
             'exclusions' => [
                 'Pre-existing conditions',
-                'Cosmetic procedures'
+                'Cosmetic procedures',
             ],
             'riskLevel' => 'medium',
             'requiredActions' => [
                 'Review policy terms carefully',
-                'Verify coverage limits'
+                'Verify coverage limits',
             ],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
     }
 

@@ -11,8 +11,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class RateLimiterSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private RateLimiter $rateLimiter
-    ) {}
+        private RateLimiter $rateLimiter,
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

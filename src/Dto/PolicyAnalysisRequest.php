@@ -6,24 +6,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PolicyAnalysisRequest
 {
-    #[Assert\NotBlank(message: "policyText is required.")]
-    #[Assert\Type("string")]
+    #[Assert\NotBlank(message: 'policyText is required.')]
+    #[Assert\Type('string')]
     public string $policyText;
 
-    #[Assert\Type("string")]
+    #[Assert\Type('string')]
     #[Assert\Length(max: 50)]
     public ?string $policyType = null;
 
-    #[Assert\Type("string")]
+    #[Assert\Type('string')]
     #[Assert\Choice(
-        choices: ["IT", "EU", "US", "UK", "GLOBAL"],
-        message: "jurisdiction must be one of IT, EU, US, UK, GLOBAL."
+        choices: ['IT', 'EU', 'US', 'UK', 'GLOBAL'],
+        message: 'jurisdiction must be one of IT, EU, US, UK, GLOBAL.'
     )]
     public ?string $jurisdiction = null;
 
-    #[Assert\Type("string")]
-    public ?string $language = "en";
+    #[Assert\Type('string')]
+    public ?string $language = 'en';
 
-    #[Assert\Type("array")]
+    #[Assert\Type('array')]
     public ?array $metadata = null;
 }

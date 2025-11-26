@@ -2,8 +2,6 @@
 
 namespace App\Exception;
 
-use RuntimeException;
-
-class ExternalApiException extends RuntimeException
+class ExternalApiException extends \RuntimeException
 {
 }

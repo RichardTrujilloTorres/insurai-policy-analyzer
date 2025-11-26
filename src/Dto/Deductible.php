@@ -7,10 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Deductible
 {
     #[Assert\NotBlank]
-    #[Assert\Type("string")]
+    #[Assert\Type('string')]
     public string $type;
 
     #[Assert\NotBlank]
-    #[Assert\Type("string")]
+    #[Assert\Type('string')]
     public string $amount;
 }

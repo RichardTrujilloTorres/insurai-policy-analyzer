@@ -2,8 +2,6 @@
 
 namespace App\Exception;
 
-use RuntimeException;
-
-class PolicyAnalysisException extends RuntimeException
+class PolicyAnalysisException extends \RuntimeException
 {
 }

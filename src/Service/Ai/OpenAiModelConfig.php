@@ -6,9 +6,10 @@ readonly class OpenAiModelConfig
 {
     public function __construct(
         private string $model = 'gpt-4o-mini',
-        private float  $temperature = 0.1,
-        private int    $maxTokens = 2000
-    ) {}
+        private float $temperature = 0.1,
+        private int $maxTokens = 2000,
+    ) {
+    }
 
     public function getModel(): string
     {

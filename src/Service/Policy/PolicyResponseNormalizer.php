@@ -2,9 +2,9 @@
 
 namespace App\Service\Policy;
 
-use App\Dto\PolicyAnalysisResponse;
 use App\Dto\Coverage;
 use App\Dto\Flags;
+use App\Dto\PolicyAnalysisResponse;
 
 class PolicyResponseNormalizer
 {

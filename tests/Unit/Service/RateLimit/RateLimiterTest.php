@@ -24,7 +24,7 @@ class RateLimiterTest extends TestCase
     {
         // Arrange
         $clientId = 'client-123';
-        $cacheKey = 'rate_limit_' . md5($clientId);
+        $cacheKey = 'rate_limit_'.md5($clientId);
 
         // First call returns 0 (no previous requests)
         $this->cache
@@ -32,6 +32,7 @@ class RateLimiterTest extends TestCase
             ->method('get')
             ->willReturnCallback(function ($key, $callback) {
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -116,7 +117,7 @@ class RateLimiterTest extends TestCase
     {
         // Arrange
         $clientId = 'test-client';
-        $expectedKey = 'rate_limit_' . md5($clientId);
+        $expectedKey = 'rate_limit_'.md5($clientId);
 
         $this->cache
             ->expects($this->exactly(2))
@@ -124,6 +125,7 @@ class RateLimiterTest extends TestCase
             ->with($expectedKey)
             ->willReturnCallback(function ($key, $callback) {
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -146,10 +148,10 @@ class RateLimiterTest extends TestCase
         $this->cache
             ->method('get')
             ->willReturnCallback(function ($key, $callback) use (&$callCount, $initialCount) {
-                $callCount++;
+                ++$callCount;
                 $item = $this->createMock(ItemInterface::class);
 
-                if ($callCount === 1) {
+                if (1 === $callCount) {
                     // First call: return initial count
                     return $initialCount;
                 } else {
@@ -200,6 +202,7 @@ class RateLimiterTest extends TestCase
             ->method('get')
             ->willReturnCallback(function ($key, $callback) {
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -226,18 +229,21 @@ class RateLimiterTest extends TestCase
             ->method('delete')
             ->willReturnCallback(function () use (&$deleteCallOrder, &$callSequence) {
                 $deleteCallOrder = ++$callSequence;
+
                 return true; // delete() must return bool
             });
 
         $this->cache
             ->method('get')
             ->willReturnCallback(function ($key, $callback) use (&$getCallOrder, &$callSequence) {
-                if ($getCallOrder === null) {
+                if (null === $getCallOrder) {
                     $getCallOrder = ++$callSequence;
+
                     return 0; // First call
                 }
                 ++$callSequence;
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -285,12 +291,13 @@ class RateLimiterTest extends TestCase
     {
         // Arrange
         $clientId = '';
-        $cacheKey = 'rate_limit_' . md5($clientId);
+        $cacheKey = 'rate_limit_'.md5($clientId);
 
         $this->cache
             ->method('get')
             ->willReturnCallback(function ($key, $callback) {
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -310,6 +317,7 @@ class RateLimiterTest extends TestCase
             ->method('get')
             ->willReturnCallback(function ($key, $callback) {
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -330,15 +338,17 @@ class RateLimiterTest extends TestCase
         $this->cache
             ->method('get')
             ->willReturnCallback(function ($key, $callback) use (&$callIndex, $counts) {
-                if ($callIndex % 2 === 0) {
+                if (0 === $callIndex % 2) {
                     // First call in pair: return current count
                     $result = $counts[intdiv($callIndex, 2)];
-                    $callIndex++;
+                    ++$callIndex;
+
                     return $result;
                 } else {
                     // Second call in pair: increment
-                    $callIndex++;
+                    ++$callIndex;
                     $item = $this->createMock(ItemInterface::class);
+
                     return $callback($item);
                 }
             });
@@ -346,7 +356,7 @@ class RateLimiterTest extends TestCase
         $this->cache->method('delete');
 
         // Act - Make 5 calls (should all succeed)
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $this->rateLimiter->checkOrThrow($clientId);
         }
 
@@ -380,6 +390,7 @@ class RateLimiterTest extends TestCase
             ->method('get')
             ->willReturnCallback(function ($key, $callback) {
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 
@@ -402,6 +413,7 @@ class RateLimiterTest extends TestCase
             ->willReturnCallback(function ($key, $callback) use (&$actualKey) {
                 $actualKey = $key;
                 $item = $this->createMock(ItemInterface::class);
+
                 return $callback($item);
             });
 

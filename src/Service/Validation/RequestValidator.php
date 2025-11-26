@@ -2,14 +2,15 @@
 
 namespace App\Service\Validation;
 
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 readonly class RequestValidator
 {
     public function __construct(
-        private ValidatorInterface $validator
-    ) {}
+        private ValidatorInterface $validator,
+    ) {
+    }
 
     /**
      * @throws ValidationFailedException

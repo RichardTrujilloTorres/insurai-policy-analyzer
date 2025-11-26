@@ -25,6 +25,7 @@ class PolicyPromptBuilderTest extends TestCase
         $request->jurisdiction = $jurisdiction;
         $request->language = $language;
         $request->metadata = $metadata;
+
         return $request;
     }
 
@@ -172,7 +173,7 @@ class PolicyPromptBuilderTest extends TestCase
             'userId' => 'user-456',
             'uploadDate' => '2024-01-15',
             'version' => '2.0',
-            'nested' => ['key' => 'value']
+            'nested' => ['key' => 'value'],
         ];
         $request = $this->createRequest('Sample policy', 'health', 'US', 'en', $metadata);
         $messages = $this->builder->buildMessages($request);

@@ -24,7 +24,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -32,8 +32,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -52,8 +52,8 @@ class PolicyResponseNormalizerTest extends TestCase
                 'coverageAmount' => '$50,000',
                 'coverageBreakdown' => [
                     ['category' => 'medical', 'limit' => '$25,000'],
-                    ['category' => 'hospitalization', 'limit' => '$25,000']
-                ]
+                    ['category' => 'hospitalization', 'limit' => '$25,000'],
+                ],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -61,8 +61,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -81,19 +81,19 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'auto',
                 'coverageAmount' => '$100,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [
                 ['type' => 'annual', 'amount' => '$1,000'],
-                ['type' => 'per-incident', 'amount' => '$500']
+                ['type' => 'per-incident', 'amount' => '$500'],
             ],
             'exclusions' => [],
             'riskLevel' => 'high',
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => true,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -112,20 +112,20 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [
                 'Pre-existing conditions',
                 'Cosmetic procedures',
-                'Experimental treatments'
+                'Experimental treatments',
             ],
             'riskLevel' => 'low',
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -144,7 +144,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'life',
                 'coverageAmount' => '$500,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -152,8 +152,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -170,7 +170,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'home',
                 'coverageAmount' => '$250,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -178,12 +178,12 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [
                 'Review coverage limits',
                 'Verify property valuation',
-                'Update beneficiary information'
+                'Update beneficiary information',
             ],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -201,7 +201,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -209,8 +209,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => true,
-                'inconsistentClausesDetected' => true
-            ]
+                'inconsistentClausesDetected' => true,
+            ],
         ];
 
         // Act
@@ -231,7 +231,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -239,8 +239,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -257,7 +257,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             // deductibles missing
             'exclusions' => [],
@@ -265,8 +265,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -283,7 +283,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             // exclusions missing
@@ -291,8 +291,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -309,7 +309,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -317,8 +317,8 @@ class PolicyResponseNormalizerTest extends TestCase
             // requiredActions missing
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -335,13 +335,13 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
             'riskLevel' => 'low',
             'requiredActions' => [],
-            'flags' => []
+            'flags' => [],
         ];
 
         // Act
@@ -362,28 +362,28 @@ class PolicyResponseNormalizerTest extends TestCase
                 'coverageBreakdown' => [
                     ['category' => 'liability', 'limit' => '$500,000'],
                     ['category' => 'property', 'limit' => '$300,000'],
-                    ['category' => 'medical', 'limit' => '$200,000']
-                ]
+                    ['category' => 'medical', 'limit' => '$200,000'],
+                ],
             ],
             'deductibles' => [
                 ['type' => 'annual', 'amount' => '$2,500'],
-                ['type' => 'per-claim', 'amount' => '$1,000']
+                ['type' => 'per-claim', 'amount' => '$1,000'],
             ],
             'exclusions' => [
                 'Intentional damage',
                 'War and terrorism',
-                'Nuclear incidents'
+                'Nuclear incidents',
             ],
             'riskLevel' => 'high',
             'requiredActions' => [
                 'Schedule property inspection',
                 'Review liability limits',
-                'Update emergency contacts'
+                'Update emergency contacts',
             ],
             'flags' => [
                 'needsLegalReview' => true,
-                'inconsistentClausesDetected' => true
-            ]
+                'inconsistentClausesDetected' => true,
+            ],
         ];
 
         // Act
@@ -411,7 +411,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => '$10,000',
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -419,8 +419,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act
@@ -439,7 +439,7 @@ class PolicyResponseNormalizerTest extends TestCase
             'coverage' => [
                 'coverageType' => 'health',
                 'coverageAmount' => 10000, // Numeric instead of string
-                'coverageBreakdown' => []
+                'coverageBreakdown' => [],
             ],
             'deductibles' => [],
             'exclusions' => [],
@@ -447,8 +447,8 @@ class PolicyResponseNormalizerTest extends TestCase
             'requiredActions' => [],
             'flags' => [
                 'needsLegalReview' => false,
-                'inconsistentClausesDetected' => false
-            ]
+                'inconsistentClausesDetected' => false,
+            ],
         ];
 
         // Act

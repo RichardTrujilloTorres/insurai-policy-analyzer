@@ -9,8 +9,9 @@ use Psr\Log\LoggerInterface;
 class RequestLogger
 {
     public function __construct(
-        private LoggerInterface $logger
-    ) {}
+        private LoggerInterface $logger,
+    ) {
+    }
 
     /**
      * Log sanitized request + metadata before sending to OpenAI.

@@ -8,8 +8,9 @@ use Monolog\Processor\ProcessorInterface;
 readonly class CorrelationIdProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CorrelationIdProvider $provider
-    ) {}
+        private CorrelationIdProvider $provider,
+    ) {
+    }
 
     public function __invoke(array|\Monolog\LogRecord $record): array|\Monolog\LogRecord
     {

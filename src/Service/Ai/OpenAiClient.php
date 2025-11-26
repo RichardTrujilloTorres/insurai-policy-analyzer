@@ -19,7 +19,7 @@ class OpenAiClient
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
         OpenAiModelConfig $config,
-        string $openAiApiKey
+        string $openAiApiKey,
     ) {
         $this->http   = $httpClient;
         $this->logger = $logger;
@@ -38,7 +38,7 @@ class OpenAiClient
             return $this->executeRequest($messages, $tools);
 
         } catch (\Throwable $e) {
-            throw new ExternalApiException("OpenAI request failed: ".$e->getMessage(), previous: $e);
+            throw new ExternalApiException('OpenAI request failed: '.$e->getMessage(), previous: $e);
         }
     }
 
@@ -51,8 +51,8 @@ class OpenAiClient
             'tool_choice' => [
                 'type' => 'function',
                 'function' => [
-                    'name' => 'analyze_insurance_policy'
-                ]
+                    'name' => 'analyze_insurance_policy',
+                ],
             ],
             'temperature' => $this->config->getTemperature(),
             'max_tokens' => $this->config->getMaxTokens(),
@@ -66,17 +66,15 @@ class OpenAiClient
             'json' => $payload,
         ]);
 
-        if ($response->getStatusCode() !== 200) {
-            throw new ExternalApiException(
-                "OpenAI returned non-200: ".$response->getStatusCode()
-            );
+        if (200 !== $response->getStatusCode()) {
+            throw new ExternalApiException('OpenAI returned non-200: '.$response->getStatusCode());
         }
 
         $data = $response->toArray(false);
 
         // OpenAI response structure: choices[0].message.tool_calls[0].function.arguments
         if (!isset($data['choices'][0]['message']['tool_calls'][0]['function']['arguments'])) {
-            throw new ExternalApiException("Unexpected OpenAI response structure");
+            throw new ExternalApiException('Unexpected OpenAI response structure');
         }
 
         $json = $data['choices'][0]['message']['tool_calls'][0]['function']['arguments'];

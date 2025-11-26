@@ -18,7 +18,8 @@ class MetricsRecorder
 {
     public function __construct(
         private LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     /**
      * Record a successful analysis with timing + optional metadata.

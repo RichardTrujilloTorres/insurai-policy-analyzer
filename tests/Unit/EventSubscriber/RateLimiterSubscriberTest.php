@@ -107,7 +107,7 @@ class RateLimiterSubscriberTest extends TestCase
         $clientIp = '192.168.1.100';
 
         $request = Request::create('http://example.com', 'GET', [], [], [], [
-            'REMOTE_ADDR' => $clientIp
+            'REMOTE_ADDR' => $clientIp,
         ]);
         // No X-Client-Id header
 
@@ -169,7 +169,7 @@ class RateLimiterSubscriberTest extends TestCase
         $clientIp = '10.0.0.1';
 
         $request = Request::create('http://example.com', 'GET', [], [], [], [
-            'REMOTE_ADDR' => $clientIp
+            'REMOTE_ADDR' => $clientIp,
         ]);
         $request->headers->set('X-Client-Id', $clientId);
 
@@ -195,7 +195,7 @@ class RateLimiterSubscriberTest extends TestCase
         $clientIp = '172.16.0.1';
 
         $request = Request::create('http://example.com', 'GET', [], [], [], [
-            'REMOTE_ADDR' => $clientIp
+            'REMOTE_ADDR' => $clientIp,
         ]);
         $request->headers->set('X-Client-Id', ''); // Empty string
 
@@ -247,7 +247,7 @@ class RateLimiterSubscriberTest extends TestCase
         $ipv6 = '2001:0db8:85a3:0000:0000:8a2e:0370:7334';
 
         $request = Request::create('http://example.com', 'GET', [], [], [], [
-            'REMOTE_ADDR' => $ipv6
+            'REMOTE_ADDR' => $ipv6,
         ]);
 
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -270,7 +270,7 @@ class RateLimiterSubscriberTest extends TestCase
 
         $request = Request::create('http://example.com', 'GET', [], [], [], [
             'REMOTE_ADDR' => '10.0.0.1', // Proxy IP
-            'HTTP_X_FORWARDED_FOR' => $realIp
+            'HTTP_X_FORWARDED_FOR' => $realIp,
         ]);
 
         // Trust the proxy

@@ -49,6 +49,7 @@ class PolicyAnalyzerServiceTest extends TestCase
         $request->jurisdiction = $jurisdiction;
         $request->language = $language;
         $request->metadata = $metadata;
+
         return $request;
     }
 
@@ -63,7 +64,7 @@ class PolicyAnalyzerServiceTest extends TestCase
                 'policyType' => 'health',
                 'jurisdiction' => 'US',
                 'language' => 'en',
-                'metadata' => null
+                'metadata' => null,
             ]);
 
         $this->setupSuccessfulAnalysisMocks();
@@ -80,7 +81,7 @@ class PolicyAnalyzerServiceTest extends TestCase
             ->with($request)
             ->willReturn([
                 ['role' => 'system', 'content' => 'System prompt'],
-                ['role' => 'user', 'content' => 'User prompt']
+                ['role' => 'user', 'content' => 'User prompt'],
             ]);
 
         $this->setupSuccessfulAnalysisMocks();
@@ -92,7 +93,7 @@ class PolicyAnalyzerServiceTest extends TestCase
         $request = $this->createRequest('Sample policy', 'health', 'US', 'en');
 
         $tools = [
-            ['type' => 'function', 'function' => ['name' => 'analyze_insurance_policy']]
+            ['type' => 'function', 'function' => ['name' => 'analyze_insurance_policy']],
         ];
 
         $this->toolSchemaFactory
@@ -127,11 +128,11 @@ class PolicyAnalyzerServiceTest extends TestCase
 
         $messages = [
             ['role' => 'system', 'content' => 'System prompt'],
-            ['role' => 'user', 'content' => 'User prompt']
+            ['role' => 'user', 'content' => 'User prompt'],
         ];
 
         $tools = [
-            ['type' => 'function', 'function' => ['name' => 'analyze_insurance_policy']]
+            ['type' => 'function', 'function' => ['name' => 'analyze_insurance_policy']],
         ];
 
         $this->promptBuilder->method('buildMessages')->willReturn($messages);
@@ -147,7 +148,7 @@ class PolicyAnalyzerServiceTest extends TestCase
                 'exclusions' => [],
                 'riskLevel' => 'low',
                 'requiredActions' => [],
-                'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false]
+                'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false],
             ]);
 
         $this->setupLoggingMocks();
@@ -177,7 +178,7 @@ class PolicyAnalyzerServiceTest extends TestCase
             'exclusions' => [],
             'riskLevel' => 'low',
             'requiredActions' => [],
-            'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false]
+            'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false],
         ];
 
         $this->client->method('run')->willReturn($rawResult);
@@ -265,7 +266,7 @@ class PolicyAnalyzerServiceTest extends TestCase
                 'policyType' => 'health',
                 'jurisdiction' => 'US',
                 'language' => 'en',
-                'metadata' => $metadata
+                'metadata' => $metadata,
             ]);
 
         $this->setupSuccessfulAnalysisMocks();
@@ -283,11 +284,13 @@ class PolicyAnalyzerServiceTest extends TestCase
 
         $this->promptBuilder->method('buildMessages')->willReturnCallback(function () use (&$callOrder) {
             $callOrder[] = 'buildMessages';
+
             return [['role' => 'system', 'content' => 'System'], ['role' => 'user', 'content' => 'User']];
         });
 
         $this->toolSchemaFactory->method('createPolicyAnalysisTools')->willReturnCallback(function () use (&$callOrder) {
             $callOrder[] = 'createPolicyAnalysisTools';
+
             return [];
         });
 
@@ -297,13 +300,14 @@ class PolicyAnalyzerServiceTest extends TestCase
 
         $this->client->method('run')->willReturnCallback(function () use (&$callOrder) {
             $callOrder[] = 'run';
+
             return [
                 'coverage' => ['coverageType' => 'health', 'coverageAmount' => '$10,000', 'coverageBreakdown' => []],
                 'deductibles' => [],
                 'exclusions' => [],
                 'riskLevel' => 'low',
                 'requiredActions' => [],
-                'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false]
+                'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false],
             ];
         });
 
@@ -313,6 +317,7 @@ class PolicyAnalyzerServiceTest extends TestCase
 
         $this->normalizer->method('normalize')->willReturnCallback(function () use (&$callOrder) {
             $callOrder[] = 'normalize';
+
             return $this->createMock(PolicyAnalysisResponse::class);
         });
 
@@ -326,7 +331,7 @@ class PolicyAnalyzerServiceTest extends TestCase
             'logOpenAiCall',
             'run',
             'logOpenAiSuccess',
-            'normalize'
+            'normalize',
         ];
 
         $this->assertSame($expectedOrder, $callOrder);
@@ -368,7 +373,7 @@ class PolicyAnalyzerServiceTest extends TestCase
             ->method('buildMessages')
             ->willReturn([
                 ['role' => 'system', 'content' => 'System prompt'],
-                ['role' => 'user', 'content' => 'User prompt']
+                ['role' => 'user', 'content' => 'User prompt'],
             ]);
     }
 
@@ -389,7 +394,7 @@ class PolicyAnalyzerServiceTest extends TestCase
             'exclusions' => [],
             'riskLevel' => 'low',
             'requiredActions' => [],
-            'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false]
+            'flags' => ['needsLegalReview' => false, 'inconsistentClausesDetected' => false],
         ]);
     }
 

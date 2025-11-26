@@ -28,8 +28,8 @@ class RequestLoggerTest extends TestCase
             'language' => 'en',
             'metadata' => [
                 'source' => 'upload',
-                'userId' => 'user-123'
-            ]
+                'userId' => 'user-123',
+            ],
         ];
 
         // Assert
@@ -44,8 +44,8 @@ class RequestLoggerTest extends TestCase
                     'language' => 'en',
                     'metadata' => [
                         'source' => 'upload',
-                        'userId' => 'user-123'
-                    ]
+                        'userId' => 'user-123',
+                    ],
                 ]
             );
 
@@ -57,7 +57,7 @@ class RequestLoggerTest extends TestCase
     {
         // Arrange
         $context = [
-            'policyType' => 'auto'
+            'policyType' => 'auto',
             // Missing: jurisdiction, language, metadata
         ];
 
@@ -71,7 +71,7 @@ class RequestLoggerTest extends TestCase
                     'policyType' => 'auto',
                     'jurisdiction' => null,
                     'language' => null,
-                    'metadata' => null
+                    'metadata' => null,
                 ]
             );
 
@@ -94,7 +94,7 @@ class RequestLoggerTest extends TestCase
                     'policyType' => null,
                     'jurisdiction' => null,
                     'language' => null,
-                    'metadata' => null
+                    'metadata' => null,
                 ]
             );
 
@@ -109,7 +109,7 @@ class RequestLoggerTest extends TestCase
             'policyText' => 'Sensitive policy information that should not be logged',
             'policyType' => 'health',
             'jurisdiction' => 'US',
-            'language' => 'en'
+            'language' => 'en',
         ];
 
         // Assert - policyText should NOT appear in logged data
@@ -121,6 +121,7 @@ class RequestLoggerTest extends TestCase
                 $this->callback(function ($loggedContext) {
                     // Verify policyText is NOT in logged context
                     $this->assertArrayNotHasKey('policyText', $loggedContext);
+
                     return true;
                 })
             );
@@ -136,7 +137,7 @@ class RequestLoggerTest extends TestCase
             'policyType' => null,
             'jurisdiction' => null,
             'language' => null,
-            'metadata' => null
+            'metadata' => null,
         ];
 
         // Assert
@@ -149,7 +150,7 @@ class RequestLoggerTest extends TestCase
                     'policyType' => null,
                     'jurisdiction' => null,
                     'language' => null,
-                    'metadata' => null
+                    'metadata' => null,
                 ]
             );
 
@@ -171,9 +172,9 @@ class RequestLoggerTest extends TestCase
                 'clientVersion' => '2.0.0',
                 'nested' => [
                     'data' => 'value',
-                    'more' => ['deeply', 'nested']
-                ]
-            ]
+                    'more' => ['deeply', 'nested'],
+                ],
+            ],
         ];
 
         // Assert - Complex metadata should be logged as-is
@@ -186,7 +187,7 @@ class RequestLoggerTest extends TestCase
                     'policyType' => 'life',
                     'jurisdiction' => 'CA',
                     'language' => 'fr',
-                    'metadata' => $context['metadata']
+                    'metadata' => $context['metadata'],
                 ]
             );
 
@@ -218,7 +219,7 @@ class RequestLoggerTest extends TestCase
             'gpt-4o-mini',
             'gpt-4-turbo',
             'gpt-4',
-            'gpt-3.5-turbo'
+            'gpt-3.5-turbo',
         ];
 
         foreach ($models as $model) {
@@ -277,7 +278,7 @@ class RequestLoggerTest extends TestCase
             'Invalid API key',
             'Network timeout',
             'Service unavailable',
-            'Invalid request format'
+            'Invalid request format',
         ];
 
         foreach ($errorMessages as $errorMessage) {
@@ -326,7 +327,7 @@ class RequestLoggerTest extends TestCase
             'policyType' => 'health',
             'jurisdiction' => 'US',
             'language' => 'en',
-            'metadata' => ['source' => 'web']
+            'metadata' => ['source' => 'web'],
         ];
 
         $this->logger
@@ -334,13 +335,13 @@ class RequestLoggerTest extends TestCase
             ->method('info')
             ->willReturnCallback(function ($message) {
                 static $callCount = 0;
-                $callCount++;
+                ++$callCount;
 
-                if ($callCount === 1) {
+                if (1 === $callCount) {
                     $this->assertSame('Incoming policy analysis request', $message);
-                } elseif ($callCount === 2) {
+                } elseif (2 === $callCount) {
                     $this->assertSame('Calling OpenAI model', $message);
-                } elseif ($callCount === 3) {
+                } elseif (3 === $callCount) {
                     $this->assertSame('OpenAI call succeeded', $message);
                 }
 
@@ -360,7 +361,7 @@ class RequestLoggerTest extends TestCase
         $context = [
             'policyType' => 'auto',
             'jurisdiction' => 'CA',
-            'language' => 'en'
+            'language' => 'en',
         ];
 
         // Expect 2 info logs (incoming + OpenAI call) and 1 error log (failure)
@@ -391,7 +392,7 @@ class RequestLoggerTest extends TestCase
             'language' => 'en',
             'metadata' => ['source' => 'upload'],
             'unexpectedField1' => 'should not be logged',
-            'unexpectedField2' => 'also should not be logged'
+            'unexpectedField2' => 'also should not be logged',
         ];
 
         // Assert - Only expected fields should be logged
@@ -409,6 +410,7 @@ class RequestLoggerTest extends TestCase
                     sort($actualKeys);
 
                     $this->assertSame($expectedKeys, $actualKeys);
+
                     return true;
                 })
             );

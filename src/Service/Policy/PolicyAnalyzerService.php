@@ -10,17 +10,17 @@ use App\Exception\PolicyAnalysisException;
 use App\Service\Ai\OpenAiClient;
 use App\Service\Ai\OpenAiToolSchemaFactory;
 use App\Service\Logging\RequestLogger;
-use Throwable;
 
 final readonly class PolicyAnalyzerService
 {
     public function __construct(
-        private OpenAiClient             $client,
-        private OpenAiToolSchemaFactory  $toolSchemaFactory,
-        private PolicyPromptBuilder      $promptBuilder,
+        private OpenAiClient $client,
+        private OpenAiToolSchemaFactory $toolSchemaFactory,
+        private PolicyPromptBuilder $promptBuilder,
         private PolicyResponseNormalizer $normalizer,
-        private RequestLogger            $requestLogger,
-    ) {}
+        private RequestLogger $requestLogger,
+    ) {
+    }
 
     /**
      * @throws PolicyAnalysisException
@@ -56,13 +56,10 @@ final readonly class PolicyAnalyzerService
             // 7. Map JSON → DTO
             return $this->normalizer->normalize($result);
 
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->requestLogger->logOpenAiFailure($e->getMessage());
 
-            throw new PolicyAnalysisException(
-                'Failed to analyze insurance policy.',
-                previous: $e
-            );
+            throw new PolicyAnalysisException('Failed to analyze insurance policy.', previous: $e);
         }
     }
 }

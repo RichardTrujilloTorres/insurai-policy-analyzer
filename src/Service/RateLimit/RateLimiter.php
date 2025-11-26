@@ -14,7 +14,7 @@ class RateLimiter
     public function __construct(
         CacheInterface $cache,
         int $maxRequests = 5,
-        int $windowSeconds = 60
+        int $windowSeconds = 60,
     ) {
         $this->cache = $cache;
         $this->maxRequests = $maxRequests;
@@ -26,10 +26,11 @@ class RateLimiter
      */
     public function checkOrThrow(string $clientId): void
     {
-        $cacheKey = 'rate_limit_' . md5($clientId);
+        $cacheKey = 'rate_limit_'.md5($clientId);
 
         $count = $this->cache->get($cacheKey, function (ItemInterface $item) {
             $item->expiresAfter($this->windowSeconds);
+
             return 0;
         });
 
@@ -41,6 +42,7 @@ class RateLimiter
         $this->cache->delete($cacheKey);
         $this->cache->get($cacheKey, function (ItemInterface $item) use ($count) {
             $item->expiresAfter($this->windowSeconds);
+
             return $count + 1;
         });
     }

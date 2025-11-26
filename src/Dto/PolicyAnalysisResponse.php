@@ -20,7 +20,7 @@ class PolicyAnalysisResponse
     public array $exclusions = [];
 
     #[Assert\NotBlank]
-    #[Assert\Choice(choices: ["low", "medium", "high"])]
+    #[Assert\Choice(choices: ['low', 'medium', 'high'])]
     public string $riskLevel;
 
     #[Assert\Type('array')]
