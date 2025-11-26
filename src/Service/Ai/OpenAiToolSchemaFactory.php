@@ -8,7 +8,7 @@ namespace App\Service\Ai;
  * Builds the OpenAI tool (function calling) schema for insurance policy analysis.
  * Updated for OpenAI's Structured Outputs with strict: true
  */
-final class OpenAiToolSchemaFactory
+class OpenAiToolSchemaFactory
 {
     public function createPolicyAnalysisTools(): array
     {

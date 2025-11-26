@@ -6,7 +6,7 @@ namespace App\Service\Logging;
 
 use Psr\Log\LoggerInterface;
 
-final class RequestLogger
+class RequestLogger
 {
     public function __construct(
         private LoggerInterface $logger
