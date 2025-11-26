@@ -27,6 +27,11 @@ class OpenAiClient
         $this->apiKey = $openAiApiKey;
     }
 
+    public function getModelName(): string
+    {
+        return $this->config->getModel();
+    }
+
     public function run(array $messages, array $tools): array
     {
         try {

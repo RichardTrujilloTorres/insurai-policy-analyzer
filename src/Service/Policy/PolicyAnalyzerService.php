@@ -9,7 +9,7 @@ use App\Dto\PolicyAnalysisResponse;
 use App\Exception\PolicyAnalysisException;
 use App\Service\Ai\OpenAiClient;
 use App\Service\Ai\OpenAiToolSchemaFactory;
-use Psr\Log\LoggerInterface;
+use App\Service\Logging\RequestLogger;
 use Throwable;
 
 final readonly class PolicyAnalyzerService
@@ -19,7 +19,7 @@ final readonly class PolicyAnalyzerService
         private OpenAiToolSchemaFactory  $toolSchemaFactory,
         private PolicyPromptBuilder      $promptBuilder,
         private PolicyResponseNormalizer $normalizer,
-        private LoggerInterface          $logger,
+        private RequestLogger            $requestLogger,
     ) {}
 
     /**
@@ -28,22 +28,36 @@ final readonly class PolicyAnalyzerService
     public function analyze(PolicyAnalysisRequest $request): PolicyAnalysisResponse
     {
         try {
-            // 1. Build messages (system + user)
+            // 1. Log metadata (never log raw text)
+            $this->requestLogger->logIncomingRequest([
+                'policyType'   => $request->policyType,
+                'jurisdiction' => $request->jurisdiction,
+                'language'     => $request->language,
+                'metadata'     => $request->metadata,
+            ]);
+
+            // 2. Prepare system/user messages
             $messages = $this->promptBuilder->buildMessages($request);
 
-            // 2. Build OpenAI function-calling tools
+            // 3. Build structured tool schema
             $tools = $this->toolSchemaFactory->createPolicyAnalysisTools();
 
-            // 3. Call OpenAI client
+            // 4. Log outbound OpenAI call
+            $this->requestLogger->logOpenAiCall(
+                model: $this->client->getModelName() // small helper you already have or we add
+            );
+
+            // 5. Call OpenAI
             $result = $this->client->run($messages, $tools);
 
-            // 4. Normalize the result (map to DTO)
+            // 6. Log success
+            $this->requestLogger->logOpenAiSuccess();
+
+            // 7. Map JSON → DTO
             return $this->normalizer->normalize($result);
 
         } catch (Throwable $e) {
-            $this->logger->error('Policy analysis failed', [
-                'exception' => $e->getMessage(),
-            ]);
+            $this->requestLogger->logOpenAiFailure($e->getMessage());
 
             throw new PolicyAnalysisException(
                 'Failed to analyze insurance policy.',
