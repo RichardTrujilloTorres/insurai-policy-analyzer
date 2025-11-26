@@ -32,3 +32,6 @@ services:
     App\Service\Validation\RequestValidator: ~
     Symfony\Component\Serializer\Normalizer\ObjectNormalizer: ~
     Symfony\Component\Serializer\Normalizer\ArrayDenormalizer: ~
+    App\EventSubscriber\RateLimiterSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
