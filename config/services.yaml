@@ -35,3 +35,6 @@ services:
     App\EventSubscriber\RateLimiterSubscriber:
         tags:
             - { name: kernel.event_subscriber }
+    App\Monolog\CorrelationIdProcessor:
+        tags:
+            - { name: monolog.processor }
