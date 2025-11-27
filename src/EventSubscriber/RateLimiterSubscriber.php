@@ -12,7 +12,9 @@ class RateLimiterSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private RateLimiter $rateLimiter,
+        private ?string $environment = null,
     ) {
+        $this->environment = $environment ?? $_ENV['APP_ENV'] ?? 'prod';
     }
 
     public static function getSubscribedEvents(): array
@@ -24,6 +26,12 @@ class RateLimiterSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
+        // Skip rate limiting in test environment (integration tests)
+        // But allow unit tests to override this by passing environment explicitly
+        if ($this->environment === 'test') {
+            return;
+        }
+
         if (!$event->isMainRequest()) {
             return;
         }

@@ -15,13 +15,18 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RateLimiterSubscriberTest extends TestCase
 {
-    private RateLimiter $rateLimiter;
+    private RateLimiter $mockRateLimiter;
     private RateLimiterSubscriber $subscriber;
 
     protected function setUp(): void
     {
-        $this->rateLimiter = $this->createMock(RateLimiter::class);
-        $this->subscriber = new RateLimiterSubscriber($this->rateLimiter);
+        $this->mockRateLimiter = $this->createMock(RateLimiter::class);
+
+        // Pass 'prod' as the environment so tests actually run the rate limiter logic
+        $this->subscriber = new RateLimiterSubscriber(
+            $this->mockRateLimiter,
+            'prod'
+        );
     }
 
     public function testGetSubscribedEvents(): void
@@ -45,7 +50,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Rate limiter should check and not throw
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with('test-client-123');
@@ -66,7 +71,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Rate limiter throws RuntimeException
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with('rate-limited-client')
@@ -92,7 +97,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Verify correct client ID is passed
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with($clientId);
@@ -115,7 +120,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Should use IP address as fallback
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with($clientIp);
@@ -134,7 +139,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Should use 'unknown' as final fallback
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with('unknown');
@@ -154,7 +159,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::SUB_REQUEST);
 
         // Rate limiter should NOT be called for sub-requests
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->never())
             ->method('checkOrThrow');
 
@@ -177,7 +182,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Should use header value, not IP
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with($clientId);
@@ -190,7 +195,7 @@ class RateLimiterSubscriberTest extends TestCase
     {
         // Arrange - Create fresh mock and subscriber for this test
         $rateLimiterMock = $this->createMock(RateLimiter::class);
-        $subscriberWithMock = new RateLimiterSubscriber($rateLimiterMock);
+        $subscriberWithMock = new RateLimiterSubscriber($rateLimiterMock, 'prod');
 
         $clientIp = '172.16.0.1';
 
@@ -227,7 +232,7 @@ class RateLimiterSubscriberTest extends TestCase
 
         $originalException = new \RuntimeException('Custom rate limit message');
 
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->method('checkOrThrow')
             ->willThrowException($originalException);
 
@@ -254,7 +259,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Should handle IPv6 addresses
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with($ipv6);
@@ -280,7 +285,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Should use the real client IP from X-Forwarded-For
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with($realIp);
@@ -310,7 +315,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event2 = new RequestEvent($kernel, $request2, HttpKernelInterface::MAIN_REQUEST);
 
         // Both should check the same client ID
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->exactly(2))
             ->method('checkOrThrow')
             ->with($clientId);
@@ -332,7 +337,7 @@ class RateLimiterSubscriberTest extends TestCase
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         // Should pass the client ID as-is
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->expects($this->once())
             ->method('checkOrThrow')
             ->with($clientId);
@@ -351,7 +356,7 @@ class RateLimiterSubscriberTest extends TestCase
         $kernel = $this->createMock(HttpKernelInterface::class);
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
-        $this->rateLimiter
+        $this->mockRateLimiter
             ->method('checkOrThrow');
 
         // Act

@@ -1,0 +1,6 @@
+# config/services_test.yaml
+services:
+    # Replace OpenAI client with stub in tests
+    App\Service\Ai\OpenAiClient:
+        class: App\Tests\Stub\StubOpenAiClient
+        public: true

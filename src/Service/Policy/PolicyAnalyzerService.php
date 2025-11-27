@@ -11,7 +11,7 @@ use App\Service\Ai\OpenAiClient;
 use App\Service\Ai\OpenAiToolSchemaFactory;
 use App\Service\Logging\RequestLogger;
 
-final readonly class PolicyAnalyzerService
+readonly class PolicyAnalyzerService
 {
     public function __construct(
         private OpenAiClient $client,
