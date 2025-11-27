@@ -126,6 +126,23 @@ Content-Type: application/json
 
 ---
 
+## 🏗️ Infrastructure
+
+Built on my **[Symfony Lambda Starter](https://github.com/RichardTrujilloTorres/lambda-symfony-template)** template, which provides the serverless foundation:
+
+- ⚡ **< 200ms cold starts** - Opcache optimization built-in
+- 📊 **CloudWatch logging** - JSON structured logs ready to query
+- 🐳 **Local Lambda environment** - Docker-based testing that mirrors production
+- 🛠️ **Developer shortcuts** - Makefile for common tasks (`make deploy`, `make logs`)
+- 🏥 **Health endpoint** - `/health` for ELB/ALB integration
+- 🔧 **Production-ready** - Error handling, monitoring setup included
+
+**Why it mattered**: This infrastructure layer enabled me to ship InsurAI in **3 weeks instead of 2+ months**. Rather than configuring Lambda, Bref, CloudWatch, and Docker from scratch, I focused entirely on the business logic (AI integration, policy analysis, testing).
+
+The template is [open source and battle-tested](https://github.com/RichardTrujilloTorres/lambda-symfony-template) in production with 1,000+ requests/min.
+
+---
+
 ## 📊 Project Stats
 
 | Metric | Value |
