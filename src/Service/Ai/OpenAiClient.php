@@ -3,8 +3,6 @@
 namespace App\Service\Ai;
 
 use App\Exception\ExternalApiException;
-use JsonException;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -54,7 +52,7 @@ class OpenAiClient
      * @param array<int, array<string, mixed>> $messages
      * @param array<int, array<string, mixed>> $tools
      * @return array<string, mixed>
-     * @throws JsonException
+     * @throws \JsonException
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface

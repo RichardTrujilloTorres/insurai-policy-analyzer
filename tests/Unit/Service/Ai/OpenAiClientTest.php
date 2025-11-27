@@ -230,8 +230,8 @@ class OpenAiClientTest extends TestCase
         $response->method('toArray')->willReturn([
             'choices' => [[
                 'message' => ['tool_calls' => [[
-                    'function' => ['arguments' => '{"test": "data"}']
-                ]]]
+                    'function' => ['arguments' => '{"test": "data"}'],
+                ]]],
             ]],
         ]);
 
@@ -254,8 +254,8 @@ class OpenAiClientTest extends TestCase
         $response->method('toArray')->willReturn([
             'choices' => [[
                 'message' => ['tool_calls' => [[
-                    'function' => ['arguments' => '{"test": "data"}']
-                ]]]
+                    'function' => ['arguments' => '{"test": "data"}'],
+                ]]],
             ]],
         ]);
 
@@ -289,8 +289,8 @@ class OpenAiClientTest extends TestCase
         $response->method('toArray')->willReturn([
             'choices' => [[
                 'message' => ['tool_calls' => [[
-                    'function' => ['arguments' => '{"test": "data"}']
-                ]]]
+                    'function' => ['arguments' => '{"test": "data"}'],
+                ]]],
             ]],
         ]);
 
@@ -299,6 +299,7 @@ class OpenAiClientTest extends TestCase
             ->method('request')
             ->with('POST', $this->anything(), $this->callback(function ($options) {
                 $payload = $options['json'];
+
                 return 'gpt-4-turbo-preview' === $payload['model']
                     && 0.5 === $payload['temperature']
                     && 4000 === $payload['max_tokens'];
@@ -392,8 +393,8 @@ class OpenAiClientTest extends TestCase
         $response->method('toArray')->willReturn([
             'choices' => [[
                 'message' => ['tool_calls' => [[
-                    'function' => ['arguments' => json_encode($complexData)]
-                ]]]
+                    'function' => ['arguments' => json_encode($complexData)],
+                ]]],
             ]],
         ]);
 

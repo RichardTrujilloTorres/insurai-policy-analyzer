@@ -8,5 +8,6 @@ readonly class LambdaExecutionContext
         public string $requestId,
         public string $functionArn,
         public int $remainingTimeMs,
-    ) {}
+    ) {
+    }
 }
