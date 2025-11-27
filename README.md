@@ -1,4 +1,4 @@
-# Insurai Policy Analyzer
+# InsurAI Policy Analyzer
 
 A production-grade **serverless API** that analyzes insurance policy text using OpenAI.  
 Built with **Symfony 7**, **PHP 8.2**, **Bref (AWS Lambda)** and a fully automated **GitHub Actions CI**.
@@ -12,7 +12,7 @@ Built with **Symfony 7**, **PHP 8.2**, **Bref (AWS Lambda)** and a fully automat
 
 ## 🚀 What It Does
 
-`insurai-policy-analyzer` exposes a single HTTP endpoint that:
+**InsurAI** exposes a single HTTP endpoint that:
 
 - Accepts raw insurance policy text + context (type, jurisdiction, language, metadata)
 - Sends it to OpenAI with a **strict function-calling schema** (Structured Outputs)
@@ -328,5 +328,3 @@ MIT License - see LICENSE file for details
 - Serverless with [Bref](https://bref.sh/)
 
 ---
-
-**Questions? Issues?** Open an issue on GitHub!
