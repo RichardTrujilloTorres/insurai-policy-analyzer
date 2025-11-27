@@ -9,6 +9,8 @@ class PolicyPromptBuilder
     /**
      * Build the system + user messages array for OpenAI.
      * This does NOT include the tool schema — only the messages.
+     *
+     * @return array<int, array<string, string>>
      */
     public function buildMessages(PolicyAnalysisRequest $request): array
     {

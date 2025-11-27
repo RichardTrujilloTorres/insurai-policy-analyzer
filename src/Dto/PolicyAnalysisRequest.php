@@ -24,6 +24,7 @@ class PolicyAnalysisRequest
     #[Assert\Type('string')]
     public ?string $language = 'en';
 
+    /** @var array<string, mixed>|null */
     #[Assert\Type('array')]
     public ?array $metadata = null;
 }

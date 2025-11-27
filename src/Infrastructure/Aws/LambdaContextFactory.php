@@ -15,8 +15,6 @@ final class LambdaContextFactory
         return new LambdaExecutionContext(
             requestId: $context->getAwsRequestId(),
             functionArn: $context->getInvokedFunctionArn(),
-            deadlineMs: $context->getDeadline(),
-            memoryLimitMb: $context->getMemoryLimit(),           // PhpStorm false-positive
             remainingTimeMs: $context->getRemainingTimeInMillis()
         );
     }

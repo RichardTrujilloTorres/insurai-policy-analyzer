@@ -3,6 +3,7 @@
 namespace App\Monolog;
 
 use App\Infrastructure\Aws\CorrelationIdProvider;
+use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
 
 readonly class CorrelationIdProcessor implements ProcessorInterface
@@ -12,7 +13,11 @@ readonly class CorrelationIdProcessor implements ProcessorInterface
     ) {
     }
 
-    public function __invoke(array|\Monolog\LogRecord $record): array|\Monolog\LogRecord
+    /**
+     * @param array<string, mixed>|LogRecord $record
+     * @return array<string, mixed>|LogRecord
+     */
+    public function __invoke(array|LogRecord $record): array|LogRecord
     {
         $record['extra']['correlation_id'] = $this->provider->get();
 

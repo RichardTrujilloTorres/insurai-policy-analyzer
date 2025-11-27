@@ -14,7 +14,8 @@ class Coverage
     #[Assert\Type('string')]
     public string $coverageAmount;
 
+    /** @var array<string, mixed> */
     #[Assert\Type('array')]
     #[Assert\Valid]
-    public array $coverageBreakdown = []; // CoverageBreakdown[]
+    public array $coverageBreakdown = [];
 }

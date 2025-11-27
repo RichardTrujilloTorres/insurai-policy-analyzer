@@ -26,7 +26,6 @@ services:
     App\Service\Ai\OpenAiClient:
         arguments:
             $httpClient: '@http_client'
-            $logger: '@logger'
             $config: '@App\Service\Ai\OpenAiModelConfig'
             $openAiApiKey: '%env(OPENAI_API_KEY)%'
     App\Service\Validation\RequestValidator: ~

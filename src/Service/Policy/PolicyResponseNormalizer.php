@@ -11,6 +11,8 @@ class PolicyResponseNormalizer
     /**
      * Normalize the raw JSON decoded array from OpenAI
      * into a proper PolicyAnalysisResponse DTO.
+     *
+     * @param array<string, mixed> $data
      */
     public function normalize(array $data): PolicyAnalysisResponse
     {

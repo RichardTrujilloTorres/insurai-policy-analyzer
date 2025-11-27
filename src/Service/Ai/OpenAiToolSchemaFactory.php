@@ -10,6 +10,9 @@ namespace App\Service\Ai;
  */
 class OpenAiToolSchemaFactory
 {
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function createPolicyAnalysisTools(): array
     {
         return [
@@ -25,6 +28,9 @@ class OpenAiToolSchemaFactory
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function getPolicyAnalysisParametersSchema(): array
     {
         return [

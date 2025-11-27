@@ -10,11 +10,13 @@ class PolicyAnalysisResponse
     #[Assert\Valid]
     public Coverage $coverage;
 
+    /** @var array<string, mixed> */
     #[Assert\NotNull]
     #[Assert\Valid]
     #[Assert\Type('array')]
     public array $deductibles = [];
 
+    /** @var array<int, string> */
     #[Assert\NotNull]
     #[Assert\Type('array')]
     public array $exclusions = [];
@@ -23,6 +25,7 @@ class PolicyAnalysisResponse
     #[Assert\Choice(choices: ['low', 'medium', 'high'])]
     public string $riskLevel;
 
+    /** @var array<int, string> */
     #[Assert\Type('array')]
     public array $requiredActions = [];
 

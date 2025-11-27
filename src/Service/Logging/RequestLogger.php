@@ -18,6 +18,8 @@ class RequestLogger
      *
      * NOTE: We do not log raw policy text for privacy/security.
      *       Only metadata and contextual info.
+     *
+     * @param array<string, mixed> $context
      */
     public function logIncomingRequest(array $context): void
     {

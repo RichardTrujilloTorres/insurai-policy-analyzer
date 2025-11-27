@@ -23,6 +23,8 @@ class MetricsRecorder
 
     /**
      * Record a successful analysis with timing + optional metadata.
+     *
+     * @param array<string, mixed> $meta
      */
     public function recordSuccess(float $durationMs, array $meta = []): void
     {
@@ -33,6 +35,8 @@ class MetricsRecorder
 
     /**
      * Record a failure analysis with reason + timing.
+     *
+     * @param array<string, mixed> $meta
      */
     public function recordFailure(float $durationMs, string $reason, array $meta = []): void
     {

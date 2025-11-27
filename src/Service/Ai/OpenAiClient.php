@@ -3,26 +3,29 @@
 namespace App\Service\Ai;
 
 use App\Exception\ExternalApiException;
+use JsonException;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OpenAiClient
 {
     private string $apiKey;
     private HttpClientInterface $http;
-    private LoggerInterface $logger;
     private OpenAiModelConfig $config;
 
     private const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
     public function __construct(
         HttpClientInterface $httpClient,
-        LoggerInterface $logger,
         OpenAiModelConfig $config,
         string $openAiApiKey,
     ) {
         $this->http   = $httpClient;
-        $this->logger = $logger;
         $this->config = $config;
         $this->apiKey = $openAiApiKey;
     }
@@ -32,6 +35,11 @@ class OpenAiClient
         return $this->config->getModel();
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $messages
+     * @param array<int, array<string, mixed>> $tools
+     * @return array<string, mixed>
+     */
     public function run(array $messages, array $tools): array
     {
         try {
@@ -42,6 +50,17 @@ class OpenAiClient
         }
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $messages
+     * @param array<int, array<string, mixed>> $tools
+     * @return array<string, mixed>
+     * @throws JsonException
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     private function executeRequest(array $messages, array $tools): array
     {
         $payload = [
