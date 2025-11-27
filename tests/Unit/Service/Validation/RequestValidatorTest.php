@@ -155,8 +155,8 @@ class RequestValidatorTest extends TestCase
         // Test with different object types
         $dtos = [
             new \stdClass(),
-            new class {},
-            (object)['property' => 'value']
+            new class () {},
+            (object) ['property' => 'value'],
         ];
 
         foreach ($dtos as $dto) {

@@ -20,8 +20,8 @@ class AnalyzePolicyControllerTest extends WebTestCase
             'language' => 'en',
             'metadata' => [
                 'source' => 'test',
-                'testId' => 'integration-test-001'
-            ]
+                'testId' => 'integration-test-001',
+            ],
         ];
 
         // Act
