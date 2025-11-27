@@ -171,6 +171,7 @@ final class PolicyAnalyzerServiceTest extends TestCase
                 $this->assertArrayHasKey('jurisdiction', $data);
                 $this->assertArrayHasKey('language', $data);
                 $this->assertArrayHasKey('metadata', $data);
+
                 return true;
             }));
 
@@ -207,6 +208,7 @@ final class PolicyAnalyzerServiceTest extends TestCase
             ->method('buildMessages')
             ->willReturnCallback(function () use (&$callOrder) {
                 $callOrder[] = 'buildMessages';
+
                 return [];
             });
 
@@ -214,6 +216,7 @@ final class PolicyAnalyzerServiceTest extends TestCase
             ->method('createPolicyAnalysisTools')
             ->willReturnCallback(function () use (&$callOrder) {
                 $callOrder[] = 'createTools';
+
                 return [];
             });
 
@@ -231,6 +234,7 @@ final class PolicyAnalyzerServiceTest extends TestCase
             ->method('run')
             ->willReturnCallback(function () use (&$callOrder) {
                 $callOrder[] = 'run';
+
                 return [];
             });
 
@@ -244,6 +248,7 @@ final class PolicyAnalyzerServiceTest extends TestCase
             ->method('normalize')
             ->willReturnCallback(function () use (&$callOrder) {
                 $callOrder[] = 'normalize';
+
                 return $this->createMock(PolicyAnalysisResponse::class);
             });
 

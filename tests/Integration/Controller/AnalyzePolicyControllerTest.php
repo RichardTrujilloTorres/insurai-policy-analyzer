@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 final class AnalyzePolicyControllerTest extends WebTestCase
 {
@@ -26,7 +25,7 @@ final class AnalyzePolicyControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertResponseIsSuccessful(
-            'Response failed: ' . $response->getStatusCode() . ' - ' . $response->getContent()
+            'Response failed: '.$response->getStatusCode().' - '.$response->getContent()
         );
 
         $this->assertResponseHeaderSame('content-type', 'application/json');

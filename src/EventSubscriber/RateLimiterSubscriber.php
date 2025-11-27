@@ -28,7 +28,7 @@ class RateLimiterSubscriber implements EventSubscriberInterface
     {
         // Skip rate limiting in test environment (integration tests)
         // But allow unit tests to override this by passing environment explicitly
-        if ($this->environment === 'test') {
+        if ('test' === $this->environment) {
             return;
         }
 
