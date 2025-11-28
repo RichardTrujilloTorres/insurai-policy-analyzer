@@ -33,7 +33,7 @@ final class CorsSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
 
         // Handle OPTIONS preflight request
-        if ($request->getMethod() === 'OPTIONS') {
+        if ('OPTIONS' === $request->getMethod()) {
             $response = new Response('', 204);
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'POST, OPTIONS');
