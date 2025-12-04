@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class DemoPasswordSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly string $demoPassword
+        private readonly string $demoPassword,
     ) {
     }
 
@@ -41,12 +41,12 @@ final class DemoPasswordSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
 
         // Only check /analyze endpoint
-        if ($request->getPathInfo() !== '/analyze') {
+        if ('/analyze' !== $request->getPathInfo()) {
             return;
         }
 
         // Skip OPTIONS preflight (CORS will handle this)
-        if ($request->getMethod() === 'OPTIONS') {
+        if ('OPTIONS' === $request->getMethod()) {
             return;
         }
 
@@ -60,7 +60,7 @@ final class DemoPasswordSubscriber implements EventSubscriberInterface
                 'contact' => [
                     'email' => 'richard.trujillo.torres@gmail.com',
                     'linkedin' => 'https://www.linkedin.com/in/richard-trujillo-1572b0b7/',
-                ]
+                ],
             ], 401);
 
             // Add CORS headers to error response
@@ -69,6 +69,7 @@ final class DemoPasswordSubscriber implements EventSubscriberInterface
             $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Correlation-ID, X-Demo-Password');
 
             $event->setResponse($response);
+
             return;
         }
 
@@ -80,7 +81,7 @@ final class DemoPasswordSubscriber implements EventSubscriberInterface
                 'contact' => [
                     'email' => 'richard.trujillo.torres@gmail.com',
                     'linkedin' => 'https://www.linkedin.com/in/richard-trujillo-1572b0b7/',
-                ]
+                ],
             ], 401);
 
             // Add CORS headers to error response
@@ -89,6 +90,7 @@ final class DemoPasswordSubscriber implements EventSubscriberInterface
             $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Correlation-ID, X-Demo-Password');
 
             $event->setResponse($response);
+
             return;
         }
 
