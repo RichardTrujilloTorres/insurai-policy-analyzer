@@ -55,7 +55,7 @@ final class CorsSubscriber implements EventSubscriberInterface
         // Add CORS headers to all responses
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Correlation-ID');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Correlation-ID, X-Demo-Password');
         $response->headers->set('Access-Control-Max-Age', '3600');
     }
 }
