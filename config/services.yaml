@@ -37,3 +37,8 @@ services:
     App\Monolog\CorrelationIdProcessor:
         tags:
             - { name: monolog.processor }
+    App\EventSubscriber\DemoPasswordSubscriber:
+        arguments:
+            $demoPassword: '%env(DEMO_PASSWORD)%'
+        tags:
+            - { name: kernel.event_subscriber }
