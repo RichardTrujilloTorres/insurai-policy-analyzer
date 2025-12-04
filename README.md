@@ -42,9 +42,15 @@ Perfect for: Insurance agents, legal teams, policy comparison platforms, InsurTe
 
 ## 🎯 Demo
 
+**Live Widget:** [https://richardtrujillotorres.github.io/insurai-widget/](https://richardtrujillotorres.github.io/insurai-widget/)
+
+Try the embeddable web component with demo mode (unlimited simulated responses) or real API access with password.
+
+**API Example:**
 ```bash
 POST /analyze
 Content-Type: application/json
+X-Demo-Password: your-password-here
 
 {
   "policyText": "Comprehensive health insurance covering medical expenses...",
@@ -82,16 +88,18 @@ Content-Type: application/json
 
 ### Core Capabilities
 - 🤖 **AI-Powered Analysis** - OpenAI GPT-4o-mini with Structured Outputs
+- 🔐 **Password Protection** - Secure demo access with validation
 - ⚡ **Serverless Architecture** - AWS Lambda via Bref (< 200ms cold start)
 - 🔒 **Privacy-First** - Policy text never logged (GDPR compliant)
 - 📊 **97.68% Test Coverage** - 211 tests, production-ready
 - 🎯 **Type-Safe** - Strict DTOs with Symfony validation
 - 🔄 **Request Tracing** - Correlation IDs throughout
-- 🚦 **Rate Limiting** - Built-in abuse prevention
+- 🚦 **Rate Limiting** - Built-in abuse prevention (5 calls/day frontend)
 - 📈 **CloudWatch Ready** - Metrics & structured logging
 
 ### Technical Highlights
 - **OpenAI Structured Outputs** - Guaranteed valid JSON responses
+- **Password Validation** - Environment-based demo access control
 - **Modern PHP 8.2** - Readonly classes, enums, named arguments, strict types
 - **Zero API Calls in Tests** - Stub pattern for fast CI/CD
 - **Clean Architecture** - DTOs, Services, Infrastructure separation
@@ -103,11 +111,12 @@ Content-Type: application/json
 ## 🏗️ Architecture
 
 ```
-┌─────────────┐      ┌──────────────────┐      ┌──────────────┐
-│   Client    │─────▶│   AWS Lambda     │─────▶│   OpenAI     │
-│  (REST API) │      │  (Symfony/Bref)  │      │  GPT-4 API   │
-└─────────────┘      └──────────────────┘      └──────────────┘
+┌─────────────┐      ┌──────────────────────────┐      ┌──────────────┐
+│   Client    │─────▶│     AWS Lambda           │─────▶│   OpenAI     │
+│  (REST API) │      │   (Symfony/Bref)         │      │  GPT-4 API   │
+└─────────────┘      └──────────────────────────┘      └──────────────┘
                               │
+                              ├─▶ Demo Password Validator (401 if invalid)
                               ├─▶ Rate Limiter (Cache)
                               ├─▶ Request Validator (Symfony)
                               ├─▶ Policy Analyzer (Business Logic)
@@ -116,13 +125,15 @@ Content-Type: application/json
 ```
 
 **Request Flow:**
-1. JSON request → `PolicyAnalysisRequest` DTO (auto-deserialized)
-2. Validation via Symfony Validator
-3. Rate limiting check (cache-based)
-4. Prompt built with context (type, jurisdiction, language)
-5. OpenAI call with function schema (Structured Outputs)
-6. Response normalized to `PolicyAnalysisResponse` DTO
-7. JSON response with correlation ID
+1. JSON request with optional `X-Demo-Password` header
+2. Password validation (if header present, required to match)
+3. JSON → `PolicyAnalysisRequest` DTO (auto-deserialized)
+4. Validation via Symfony Validator
+5. Rate limiting check (cache-based)
+6. Prompt built with context (type, jurisdiction, language)
+7. OpenAI call with function schema (Structured Outputs)
+8. Response normalized to `PolicyAnalysisResponse` DTO
+9. JSON response with correlation ID
 
 ---
 
@@ -206,10 +217,11 @@ composer install
 # Copy environment file
 cp .env .env.local
 
-# Configure your OpenAI key
+# Configure your API keys and demo password
 # Edit .env.local:
 OPENAI_API_KEY=sk-your-key-here
 OPENAI_MODEL=gpt-4o-mini
+DEMO_PASSWORD=recruiter2024
 
 # Run development server
 symfony server:start
@@ -221,7 +233,7 @@ symfony server:start
 # Health check
 curl http://localhost:8000/health
 
-# Analyze a policy
+# Analyze a policy (demo mode - simulated response from frontend widget)
 curl -X POST http://localhost:8000/analyze \
   -H "Content-Type: application/json" \
   -d '{
@@ -230,7 +242,92 @@ curl -X POST http://localhost:8000/analyze \
     "jurisdiction": "US",
     "language": "en"
   }'
+
+# Analyze with password (real API mode)
+curl -X POST http://localhost:8000/analyze \
+  -H "Content-Type: application/json" \
+  -H "X-Demo-Password: recruiter2024" \
+  -d '{
+    "policyText": "Comprehensive health insurance covering medical expenses up to $100,000 annually with a $1,000 deductible. Pre-existing conditions excluded.",
+    "policyType": "health",
+    "jurisdiction": "US",
+    "language": "en"
+  }'
 ```
+
+---
+
+## 🔐 Demo Password System
+
+The API includes password protection for demo/portfolio access:
+
+### How It Works
+
+**Without Password:**
+- Frontend widget shows demo mode
+- Returns simulated responses (frontend-side)
+- Unlimited calls, instant responses
+- Backend returns 401 if request reaches it without password
+
+**With Password:**
+- Header: `X-Demo-Password: your-password-here`
+- Backend validates password from `DEMO_PASSWORD` environment variable
+- Real OpenAI analysis performed
+- Frontend enforces 5 calls/day rate limit (localStorage)
+
+### Configuration
+
+**Local Development:**
+```bash
+# .env.local
+DEMO_PASSWORD=recruiter2024
+```
+
+**Production (AWS Lambda):**
+```bash
+# Set via AWS CLI
+aws lambda update-function-configuration \
+  --function-name insurai-policy-analyzer \
+  --environment "Variables={DEMO_PASSWORD=recruiter2024}"
+
+# Or via serverless.yml
+provider:
+  environment:
+    DEMO_PASSWORD: ${env:DEMO_PASSWORD}
+```
+
+### Error Responses
+
+**Missing Password (401):**
+```json
+{
+  "error": "Demo password required",
+  "message": "This API requires a demo password. Contact me to get access.",
+  "contact": {
+    "email": "richard.trujillo.torres@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/richard-trujillo-1572b0b7/"
+  }
+}
+```
+
+**Invalid Password (401):**
+```json
+{
+  "error": "Invalid demo password",
+  "message": "The password you provided is incorrect. Contact me for access.",
+  "contact": {
+    "email": "richard.trujillo.torres@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/richard-trujillo-1572b0b7/"
+  }
+}
+```
+
+### Cost Protection
+
+- Frontend: 5 calls/day rate limit (localStorage)
+- Backend: Password validation
+- Combined: ~$0.10/day per user (5 × $0.02)
+- Budget-safe: $30/month for 10 users
 
 ---
 
@@ -267,12 +364,19 @@ composer stan
 
 Analyzes an insurance policy document.
 
+**Headers:**
+```
+Content-Type: application/json
+X-Demo-Password: your-password-here  # Required for real API access
+X-Correlation-ID: optional-trace-id  # Optional request tracking
+```
+
 **Request Body:**
 ```typescript
 {
   policyText: string;      // Required - The policy text to analyze
   policyType?: string;     // Optional - health|auto|life|home|travel
-  jurisdiction?: string;   // Optional - US|CA|UK|EU|etc
+  jurisdiction?: string;   // Optional - IT|EU|US|UK|GLOBAL
   language?: string;       // Optional - en|fr|es|de|it (default: en)
   metadata?: object;       // Optional - Custom metadata
 }
@@ -298,12 +402,15 @@ Analyzes an insurance policy document.
 ```
 
 **Error Responses:**
+- `401 Unauthorized` - Missing or invalid demo password
 - `422 Unprocessable Entity` - Validation failed
-- `429 Too Many Requests` - Rate limit exceeded (5 req/60s)
+- `429 Too Many Requests` - Rate limit exceeded
 - `500 Internal Server Error` - Processing error
 
-**Headers:**
-- `X-Correlation-ID` - Request tracking ID (auto-generated or from request)
+**Response Headers:**
+- `X-Correlation-ID` - Request tracking ID
+- `Access-Control-Allow-Origin: *` - CORS enabled
+- `Access-Control-Allow-Headers: Content-Type, X-Correlation-ID, X-Demo-Password`
 - `Content-Type: application/json`
 
 ---
@@ -317,11 +424,13 @@ Analyzes an insurance policy document.
 - ✅ **Sanitized errors** - No policy content in error messages
 
 ### Security Features
-- 🚦 **Rate Limiting** - 5 requests per 60 seconds per client
+- 🔐 **Password Protection** - Demo access requires valid password
+- 🚦 **Rate Limiting** - 5 calls/day (frontend enforcement)
 - ✅ **Input Validation** - Strict DTO validation via Symfony Validator
 - 🔒 **Type Safety** - PHP 8.2 strict types throughout
 - 🛡️ **Exception Handling** - Global error handler prevents data leaks
-- 🔑 **API Key Security** - Environment variables, never hardcoded
+- 🔑 **Environment Variables** - Secrets never hardcoded
+- 🌐 **CORS Configuration** - Proper headers for web clients
 
 ---
 
@@ -334,6 +443,7 @@ This project demonstrates my expertise in:
 - ✅ **Symfony Framework** - DI, validation, serialization, events
 - ✅ **RESTful APIs** - Clean endpoints, proper status codes, DTOs
 - ✅ **Error Handling** - Graceful failures, correlation IDs
+- ✅ **Security** - Password validation, rate limiting, input validation
 
 ### AI Integration
 - ✅ **OpenAI API** - Function calling, Structured Outputs
@@ -353,7 +463,14 @@ This project demonstrates my expertise in:
 - ✅ **Scalability** - Stateless, cache-backed rate limiting
 - ✅ **Cost-Efficient** - Pay-per-use, no idle servers
 
-**Key Challenge Solved**: Getting reliable, structured data from OpenAI's API while maintaining strict type safety, 97%+ test coverage, and production-grade error handling.
+**Key Challenge Solved**: Getting reliable, structured data from OpenAI's API while maintaining strict type safety, 97%+ test coverage, and production-grade error handling—plus secure demo access for portfolio presentation.
+
+---
+
+## 🔗 Related Projects
+
+- **[InsurAI Widget](https://github.com/RichardTrujilloTorres/insurai-widget)** - Embeddable web component (Lit + Vite)
+- **[Lambda Template](https://github.com/RichardTrujilloTorres/lambda-symfony-template)** - Serverless Symfony starter
 
 ---
 
